@@ -25,6 +25,7 @@ def get_packages(pkgs):
         "tensorflow-cpu": ["tensorflow", "tensorflow_cpu"],
     }
     result = {}
+    # 这里是import_module对应module_name的package，获取其运行时所安装的版本号
     for p in pkgs:
         # Determine possible module names to try.
         module_names = PACKAGE_MODULE_OVERRIDES.get(p.lower(), [p])
@@ -91,10 +92,21 @@ def get_requirements_dict():
                 print(f"Skipping line due to parsing error: {line} ({e})")
                 continue
             # Evaluate the marker if present.
+            print("✈️ get_requirements_dict, add req: ", req.name, req.marker, req.specifier, line)
+
+            # marker是一个条件表达式, 用于确定某个依赖包是否应该在当前环境中安装. 它可以基于
+            # 操作系统：sys_platform
+            # Python 版本：python_version
+            # 架构：platform_machine
+            # 其他环境变量
+
+            # 本项目的`requirements.txt`并不涉及
             if req.marker is not None and not req.marker.evaluate():
                 continue
-            # Store the package name and its version specifier.
+            
+            # req.specifier也就是version specifier，表示版本号部分. 比如`>=2.3.0`
             spec = str(req.specifier) if req.specifier else ">=0"
+            # Store the package name and its version specifier.
             reqs[req.name.lower()] = spec
     return reqs
 
@@ -103,6 +115,9 @@ def check_packages(reqs):
     """
     Checks the installed versions of packages against the requirements.
     """
+
+    # reqs是`requirements.txt`中解析出的package及其版本要求
+    # installed是当前环境中实际安装的package及其版本
     installed = get_packages(reqs.keys())
     for pkg_name, spec_str in reqs.items():
         spec_set = SpecifierSet(spec_str)
