@@ -4,16 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llms-from-scratch"
-version = "1.0.17"
+version = "1.0.18"
 description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by step"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.10,<=3.13"
 dependencies = [
-    "torch>=2.3.0",
+    "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.13'",
+    "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "torch>=2.2.2; sys_platform == 'linux'",
+    "torch>=2.2.2; sys_platform == 'win32'",
+    "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "tensorflow>=2.18.0; sys_platform == 'linux'",
+    "tensorflow>=2.18.0; sys_platform == 'win32'",
     "jupyterlab>=4.0",
     "tiktoken>=0.5.1",
     "matplotlib>=3.7.1",
-    "tensorflow>=2.18.0",
     "tqdm>=4.66.1",
     "numpy>=1.26,<2.1",
     "pandas>=2.2.1",
@@ -39,17 +45,11 @@ line-length = 140
 
 [tool.ruff.lint]
 exclude = [".venv"]
-# Ignored rules (W504 removed)
-ignore = [
-    "C406", "E226", "E402", "E702", "E703",
-    "E722", "E731", "E741"
-]
-
+ignore = ["C406", "E226", "E402", "E702", "E703", "E722", "E731", "E741"]
 
 # `llms_from_scratch` PyPI package
-
 [tool.setuptools]
-package-dir = {"" = "pkg"}
+package-dir = { "" = "pkg" }
 
 [tool.setuptools.packages.find]
 where = ["pkg"]

@@ -1,4 +1,5 @@
 # Configs and keys
+.chainlit
 ch05/07_gpt_to_llama/config.json
 ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json
@@ -142,7 +143,9 @@ ch0?/0?_user_interface/chainlit.md
 ch0?/0?_user_interface/.files
 *.lock
 
-# Temporary OS-related files
+# Temporary and OS-related files
+chainlit.md
+Untitled.ipynb
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
